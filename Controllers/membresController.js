@@ -7,7 +7,18 @@ const route = express.Router();
 
 //show Membres list
 const index = (req,res,next)  => {
-	Membres.find().populate('municipalite')
+	Membres.find()
+	.populate([
+        {
+          path: 'municipalite',
+		  populate: {
+		    path: 'gouvernorat',
+			populate: {
+				path: 'ministere'
+			  }
+		  }
+        },
+      ])
 	.then(response  => {
 		res.json(response)
 	})
@@ -64,6 +75,7 @@ const getById = (req,res,next)  => {
 	})
 }
 
+
 //update membre
 const update = (req,res,next) => {
 	let membreId = req.body.membreId
@@ -112,6 +124,8 @@ const destroy = (req,res,next) => {
 		})
 	})
 }
+
+
 
 
 route.get('/',index)

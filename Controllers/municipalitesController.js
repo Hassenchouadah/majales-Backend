@@ -7,6 +7,14 @@ const route = express.Router();
 //show Municipalites list
 const index = (req,res,next)  => {
 	Municipalites.find()
+	.populate([
+        {
+          path: 'gouvernorat',
+		  populate: {
+		    path: 'ministere'
+		  }
+        },
+      ])
 	.then(response  => {
 		res.json(response)
 	})
@@ -20,7 +28,8 @@ const index = (req,res,next)  => {
 //add Municipalite
 const addMunicipalite = (req,res,next) => {
 	let municipalite = new Municipalites({
-		Nom: req.body.nom
+		Nom: req.body.nom,
+		gouvernorat: req.body.gouvernorat
 	})
 	municipalite.save()
 	.then(response => {
@@ -34,6 +43,7 @@ const addMunicipalite = (req,res,next) => {
 		})
 	})
 }
+
 
 
 route.get('/',index)
