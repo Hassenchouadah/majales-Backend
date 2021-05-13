@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Municipalite = require('../Models/Municipalite');
 const Municipalites = require('../Models/Municipalite')
 
 const route = express.Router();
@@ -45,8 +46,25 @@ const addMunicipalite = (req,res,next) => {
 }
 
 
+//getMunicipalitesyGouvernorat
+const getMunicipalitesByGouvernorat = (req,res,next)  => {
+	let gouvernoratId = req.body.gouvernoratId
+	Municipalite.find({ 'gouvernorat': req.body.gouvernoratId })
+	.then(municipalites  => {
+		res.json(municipalites)
+	})
+	.catch(error  => {
+		res.json({
+			message: "an error occured when displaying municipalites"
+		})
+	})
+}
+
+
 
 route.get('/',index)
+
+route.post('/getMunicipalitesByGouvernorat',getMunicipalitesByGouvernorat)
 route.post('/add',addMunicipalite)
 
 module.exports = route;

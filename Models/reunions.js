@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
 const Participation = require('./participation').ParticipationSchema; 
 
+const Schema = mongoose.Schema;
+require('./Municipalite');
+
 const reunion = new mongoose.Schema({
     sujet: {
       type: String
     },
-    lieu: {
-        type: String
+    municipalite: {
+        type: Schema.ObjectId,
+        ref: 'municipalites'
     },
     date: {
         type: Date

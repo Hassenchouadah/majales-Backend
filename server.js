@@ -9,6 +9,7 @@ app.use(express.json({ extended: false }));
 app.use('/uploads', express.static(__dirname + '/public'));
 
 app.use('/api/auth',require('./Controllers/loginController'))
+app.use('/api/users',require('./Controllers/usersController'))
 
 app.use('/api/membres',require('./Controllers/membresController'))
 app.use('/api/municipalites',require('./Controllers/municipalitesController'))
