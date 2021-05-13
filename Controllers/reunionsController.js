@@ -26,17 +26,10 @@ const index = (req,res,next)  => {
 	})
 	.catch(error  =>{
 		res.json({
-			message: "an error occured when displaying Membres"
-		})
-	})
-	.then(response  => {
-		res.json(response)
-	})
-	.catch(error  =>{
-		res.json({
 			message: "an error occured when displaying Reunions"
 		})
 	})
+
 }
 
 const reunionById = (req,res,next) => {
@@ -65,11 +58,13 @@ const addReunion = (req,res,next) => {
 	let reunion = new Reunions({
 		sujet: req.body.sujet,
         lieu: req.body.lieu,
-        date: Date.parse(req.body.date),//'31 Dec 1998 00:12:00 GMT'
+        date: req.body.date,//'31 Dec 1998 00:12:00 GMT'
         duree: req.body.duree,
         type: req.body.type,
-        participations:[]
+        participations:req.body.participations
 	})
+
+    //console.log(req.body);
 	reunion.save()
 	.then(response => {
 		res.json({
@@ -77,6 +72,7 @@ const addReunion = (req,res,next) => {
 		})
 	})
 	.catch(error  => {
+        console.log(error)
 		res.json({
 			message: "an error occured when adding reunion"
 		})
@@ -196,12 +192,36 @@ const removeParticipation = (req, res) => {
     }
 }
 
+//update membre
+const edit = (req,res,next) => {
+	let reunionId = req.body._id
+	let updatedReunion = {
+		sujet: req.body.sujet,
+        lieu: req.body.lieu,
+        date: req.body.date,
+        duree: req.body.duree,
+        type: req.body.type,
+        participations:req.body.participations
+	}
+	Reunions.findByIdAndUpdate(reunionId,{$set: updatedReunion})
+	.then(() => {
+		res.json({
+			message: "Reunion updated successfully"
+		})
+	})
+	.catch(error => {
+		res.json({
+			message: "an error occured when updating Reunion"
+		})
+	})
+}
 
 
 route.get('/',index)
 
 route.post('/id',reunionById)
 route.post('/add',addReunion)
+route.post('/edit',edit)
 route.post('/addParticipation',addParticipation)
 route.post('/removeParticipation',removeParticipation)
 

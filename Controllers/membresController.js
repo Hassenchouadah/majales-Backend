@@ -46,8 +46,18 @@ const addMembre = (req,res,next) => {
 		specialite: req.body.specialite,
 		diplome: req.body.diplome,
 		annee_obtention: req.body.annee_obtention,
-		municipalite:req.body.municipalite
+		municipalite:req.body.municipalite,
+
+		secteur : req.body.secteur,
+		grade : req.body.grade,
+		poste : req.body.poste,
+		num_cnss : req.body.num_cnss,
+		is_active : req.body.is_active,
+		appartenance : req.body.appartenance,
+		nom_partie : req.body.nom_partie,
+		description_conseil : req.body.description_conseil
 	})
+
 	membre.save()
 	.then(response => {
 		res.json({
@@ -78,7 +88,8 @@ const getById = (req,res,next)  => {
 
 //update membre
 const update = (req,res,next) => {
-	let membreId = req.body.membreId
+	let membreId = req.body._id
+	
 	let updatedMembre = {
 		nom: req.body.nom,
 		prenom: req.body.prenom,
@@ -94,7 +105,16 @@ const update = (req,res,next) => {
 		specialite: req.body.specialite,
 		diplome: req.body.diplome,
 		annee_obtention: req.body.annee_obtention,
-		municipalite:req.body.municipalite
+		municipalite:req.body.municipalite,
+
+		secteur : req.body.secteur,
+		grade : req.body.grade,
+		poste : req.body.poste,
+		num_cnss : req.body.num_cnss,
+		is_active : req.body.is_active,
+		appartenance : req.body.appartenance,
+		nom_partie : req.body.nom_partie,
+		description_conseil : req.body.description_conseil
 	}
 	Membres.findByIdAndUpdate(membreId,{$set: updatedMembre})
 	.then(() => {
