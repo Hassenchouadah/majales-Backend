@@ -65,6 +65,7 @@ const addMembre = (req,res,next) => {
 		})
 	})
 	.catch(error  => {
+		console.log(error)
 		res.json({
 			message: "an error occured when adding membre"
 		})

@@ -1,7 +1,6 @@
 require('dotenv').config()
 
 const express = require('express');
-const mongoose = require('mongoose');
 const Admins = require('../Models/Admin')
 
 const route = express.Router();
@@ -115,12 +114,42 @@ const login =  (req,res,next)  =>{
                         })
                     )
                 }else {
-                    res.sendStatus(201)  
+                    res.status(201).send(JSON.stringify(
+                        {
+                            _id : "",
+                            username : "",
+                            password : "",
+                            nom : "",
+                            prenom : "",
+                            adresse : "",
+                            email : "",
+                            telephone :"",
+                            CIN : "",
+                            avatar : "",
+                            role : "",
+                            accessToken : ""
+                        })
+                    )
                 }
                 
             })
         } else {
-            res.sendStatus(202)
+            res.status(202).send(JSON.stringify(
+                {
+                    _id : "",
+                    username : "",
+                    password : "",
+                    nom : "",
+                    prenom : "",
+                    adresse : "",
+                    email : "",
+                    telephone :"",
+                    CIN : "",
+                    avatar : "",
+                    role : "",
+                    accessToken : ""
+                })
+            )
         }
 
     })
@@ -144,7 +173,7 @@ function authenticateToken(req, res, next) {
 
 
 route.post('/register',register)
-route.get('/', authenticateToken ,index)
+route.get('/', /*authenticateToken ,*/index)
 route.post('/login',login)
 
 module.exports = route;
