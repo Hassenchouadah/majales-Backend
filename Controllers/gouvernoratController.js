@@ -17,6 +17,21 @@ const index = (req,res,next)  => {
 	})
 }
 
+
+//getById gouvernorat
+const getById = (req,res,next)  => {
+	let gouvernoratId = req.body.gouvernoratId
+	Gouvernorat.findById(gouvernoratId)
+	.then(gouvernorat  => {
+		res.json(gouvernorat)
+	})
+	.catch(error  => {
+		res.json({
+			message: "an error occured when displaying gouvernorat"
+		})
+	})
+}
+
 //add Municipalite
 const addGouvernorat = (req,res,next) => {
 	let gouvernorat = new Gouvernorat({
@@ -39,6 +54,7 @@ const addGouvernorat = (req,res,next) => {
 
 
 route.get('/',index)
+route.post('/getById',getById)
 route.post('/add',addGouvernorat)
 
 module.exports = route;
