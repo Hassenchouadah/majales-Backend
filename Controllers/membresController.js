@@ -29,7 +29,7 @@ const index = (req,res,next)  => {
 	})
 }
 
-//add Post
+//add Membre
 const addMembre = (req,res,next) => {
 	let membre = new Membres({
 		nom: req.body.nom,

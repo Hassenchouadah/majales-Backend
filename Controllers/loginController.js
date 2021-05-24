@@ -8,65 +8,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const Admin = require('../Models/Admin');
 
-const register = (req,res,next)  => {
-	bcrypt.hash(req.body.password,10,function(err,hashedPass) {
-        if (err) {
-			console.log('erreur password hash');
-			res.json({
-				msg: 'erreur password hash'
-			})
-		}
-        var verifemail= req.body.email
-        var verifusername=req.body.username
-        var verifcin=req.body.cin
 
-        Admins.findOne({$or: [{email:verifemail}]})
-        .then(adminemail =>{
-            if (adminemail){//if email exist
-                res.sendStatus(201)
-            }
-            else{
-                Admins.findOne({$or: [{username:verifusername}]})
-                .then(adminusername =>{
-                    if (adminusername){//if username exist
-                        res.sendStatus(202)
-                    }else{
-                        Admins.findOne({$or: [{cin:verifcin}]})
-                        .then(admincin =>{
-                            if (admincin){//if cin exist
-                                res.sendStatus(203)
-                            }else{//add admin
-                                let admin = new Admins({
-                                    username : req.body.username,
-                                    password : hashedPass,
-                                    nom : req.body.nom,
-                                    prenom : req.body.prenom,
-                                    adresse : req.body.adresse,
-                                    email : req.body.email,
-                                    telephone : req.body.telephone,
-                                    CIN : req.body.cin,
-                                    avatar : req.body.avatar,
-                                    role : req.body.role
-                                })
-                                admin.save()
-                                .then(data => {
-                                    res.status(200).send(JSON.stringify({
-                                        msg:'admin added successfully'
-                                    }))
-                                })
-                                .catch(error=>{
-                                    res.json({
-                                        msg:'an error occured when adding admin'
-                                    })
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-    })
-}
 
 const index = (req,res,next)  => {
 	Admin.find()
@@ -172,7 +114,7 @@ function authenticateToken(req, res, next) {
 }
 
 
-route.post('/register',register)
+
 route.get('/', /*authenticateToken ,*/index)
 route.post('/login',login)
 

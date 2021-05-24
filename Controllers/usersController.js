@@ -85,19 +85,9 @@ const addAdmin = (req,res,next) => {
 
 
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.status(401).send(JSON.stringify({message:"no token in headers"}))
-  
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      if (err) return res.status(403).send(JSON.stringify({message:"erreur in token"}))
-      req.user = user
-      next()
-    })
-}
 
-route.get('/', /*authenticateToken ,*/index)
+
+route.get('/', index)
 route.post('/add',addAdmin);
 
 module.exports = route;

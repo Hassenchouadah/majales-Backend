@@ -129,120 +129,11 @@ soyez à l'heure !`
 
 }
 
-// add Participation
-const addParticipation = (req, res) => {
-    try {
-        Reunions.findOne({'_id': req.body.reunionId}).exec(function (err, reunion) {
-            if (err) {
-                return res.json({
-                    message: 'Error find Reunion '
-                });
-            } else {
-                try {
-                	
-                    var participations = [];
-                    
-                    participations = reunion.participations;
-                    const participation = {
-                        membre: req.body.membreId
-                    };
-                    var trouv=false;
-                    for (var i = 0; i < participations.length; i++) {
-                        if (participations[i].membre._id==req.body.membreId) {
-                            trouv=true
-                        }
-                    }
-                    
-                    if (trouv) {
-                        res.status(200).send(JSON.stringify({
-                            message:'Participation exite'
-                        }))
-                    } else {
-                        participations.push(participation);
-                        reunion.participations = participations;
-                        reunion.save(function (err) {
-                            if (err) {
-                                console.log('error' + err)
-                            } else {
-                                res.status(200).send(JSON.stringify({
-                                    message:'Participation added succeffully'
-                                }))
-                            }
-                        });
-                    }
-                    
 
-                    
-                } catch (err) {
-                    console.log(err);
-                    
-                    res.status(500).send(JSON.stringify({
-                        message: '500 Internal Server Error'
-					}))
 
-                }
-            }
-        });
 
-    } catch (err) {
-        console.log(err);
-        res.status(500).send(JSON.stringify({
-            message: '500 Internal Server Error'
-		}))
 
-    }
-}
-
-// delete favorite
-const removeParticipation = (req, res) => {
-
-    try {
-        Reunions.findOne({'_id': req.body.reunionId}).exec(function (err, reunion) {
-            if (err) {
-                return res.json({
-                    message: 'Error find user '
-                });
-            } else {
-                try {
-                    for (var i = 0; i < reunion.participations.length; i++) {
-		                if(reunion.participations[i].membre==req.body.membreId)
-		                {
-		                    reunion.participations.splice(i,1);
-		                }
-            		}
-                    reunion.save(function (err) {
-                        if (err) {
-                            console.log('error' + err)
-                        } else {
-                            res.status(200).send(JSON.stringify({
-								message:'participation deleted succeffully'
-							}))
-                        }
-                    });
-                    
-                } catch (err) {
-                    console.log(err);
-                    res.status(500).send(JSON.stringify({
-                        message: '500 Internal Server Error'
-					}))
-
-                }
-            }
-        });
-
-    } catch (err) {
-        console.log(err);
-        
-        res.status(500).send(JSON.stringify({
-			status: 0,
-            message: '500 Internal Server Error',
-            data: {}
-		}))
-
-    }
-}
-
-//update membre
+//update reunion
 const edit = (req,res,next) => {
 	let reunionId = req.body._id
 	let updatedReunion = {
@@ -290,10 +181,6 @@ const destroy = async (req,res,next) => {
         const membre = reunion.participations[i].membre;
         maillist.push(membre.adresse);
     }
-
-
-
-
     var dateReunion = new Date(reunion.date).toISOString().replace(/T/, ' ').replace(/\..+/, ''); //format date to '2020-04-04 14:55:45'
     var mailContent = `Bonjour, je me prie de vous envoyer ce mail pour vous annoncer que la réunion prévue le `+dateReunion+` est annulée `
         
@@ -351,7 +238,6 @@ const destroyPrep = async (req,res,next) => {
 }
 
 route.get('/',index)
-
 route.post('/id',reunionById)
 route.post('/add',addReunion)
 route.post('/edit',edit)
@@ -359,8 +245,7 @@ route.post('/destroy',destroy);
 route.post('/destroyPrep',destroyPrep);
 
 
-route.post('/addParticipation',addParticipation)
-route.post('/removeParticipation',removeParticipation)
+
 
 
 module.exports = route;
