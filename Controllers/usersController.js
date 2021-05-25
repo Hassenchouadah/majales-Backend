@@ -81,13 +81,29 @@ const addAdmin = (req,res,next) => {
 
     })
 
+
 }
 
+const destroy = async (req,res,next) => {
+	let adminId = req.body.adminId
+    Admin.findByIdAndRemove(adminId)
+    .then(() => {
+        res.json({
+            message:"Admin deleted successfully"
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message:"an error occured when admin reunion"
+        })
+    });
+}
 
 
 
 
 route.get('/', index)
 route.post('/add',addAdmin);
+route.post('/destroy',destroy);
 
 module.exports = route;
