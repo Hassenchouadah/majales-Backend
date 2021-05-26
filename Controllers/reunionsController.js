@@ -220,7 +220,7 @@ const destroy = async (req,res,next) => {
         });
 
 }
-
+ 
 //delete reunion preparatoire
 const destroyPrep = async (req,res,next) => {
 	let reunionId = req.body.reunionId
