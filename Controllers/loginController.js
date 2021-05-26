@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const Admin = require('../Models/Admin');
 
 
-
+//afficher liste des admins
 const index = (req,res,next)  => {
 	Admin.find()
 	.then(response  => {
@@ -22,6 +22,8 @@ const index = (req,res,next)  => {
 	})
 }
 
+
+//Vérification des données saisies
 const login =  (req,res,next)  =>{
     var email=req.body.email
     var pwd=req.body.pwd
@@ -56,7 +58,7 @@ const login =  (req,res,next)  =>{
                         })
                     )
                 }else {
-                    res.status(201).send(JSON.stringify(
+                    res.status(201).send(JSON.stringify( //wrong password
                         {
                             _id : "",
                             username : "",
@@ -76,7 +78,7 @@ const login =  (req,res,next)  =>{
                 
             })
         } else {
-            res.status(202).send(JSON.stringify(
+            res.status(202).send(JSON.stringify( //user not found
                 {
                     _id : "",
                     username : "",
