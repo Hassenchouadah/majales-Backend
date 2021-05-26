@@ -76,7 +76,7 @@ const addReunion = async (req,res,next) => {
         duree: req.body.duree,
         type: req.body.type,
         participations:req.body.participations
-	})
+	})//reunion preparatoire 
     let dateReunion = new Date(req.body.date).toISOString().replace(/T/, ' ').replace(/\..+/, ''); //format date to '2020-04-04 14:55:45'  
     let prepDate = new Date(reunionDate.getFullYear(), reunionDate.getMonth()-1, reunionDate.getDate(), reunionDate.getHours(), reunionDate.getMinutes(), reunionDate.getSeconds(), reunionDate.getMilliseconds());
     if(req.body.type=="Regulière") {
