@@ -146,10 +146,67 @@ const destroy = (req,res,next) => {
 	})
 }
 
+const getMembresByMunicipalite = (req,res,next) => {
+	Membres.find({ 'municipalite': req.body.municipaliteId })
+	.populate([
+        {
+          path: 'municipalite',
+		  populate: {
+		    path: 'gouvernorat',
+			populate: {
+				path: 'ministere'
+			  }
+		  }
+        },
+      ])
+	.then(response  => {
+		res.json(response)
+	})
+	.catch(error  =>{
+		res.json({
+			message: "an error occured when displaying Membres"
+		})
+	})
+}
 
+const getMembresByGouvernorat = (req,res,next) => {
+	Membres.find()
+	.populate([
+        {
+          path: 'municipalite',
+		  populate: {
+		    path: 'gouvernorat',
+			populate: {
+				path: 'ministere'
+			  }
+		  }
+        },
+      ])
+	.then(Allmembres  => { //liste de tous les membres
+		var filteredMembres=[];	
+		
+		for (let i = 0; i < Allmembres.length; i++) {
+			if (Allmembres[i].municipalite.gouvernorat._id==req.body.gouvernoratId) {
+				filteredMembres.push(Allmembres[i])
+			}
+		}
+
+		res.json(filteredMembres)
+	})
+	.catch(error  =>{
+		console.log(error)
+		res.json({
+			message: "an error occured when displaying Membres by gouvernorat"
+		})
+	})
+}
 
 
 route.get('/',index)
+route.post('/getMembresByMunicipalite',getMembresByMunicipalite)
+route.post('/getMembresByGouvernorat',getMembresByGouvernorat)
+
+
 route.post('/add',addMembre)
 route.post('/getById',getById)
 route.post('/update',update)
