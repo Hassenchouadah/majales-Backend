@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const Admin = require('../Models/Admin');
-
+//node mailer
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -17,7 +17,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-
+//liste admin
 const index = (req,res,next)  => {
 	Admin.find()
 	.then(response  => {
@@ -83,7 +83,7 @@ const addAdmin = (req,res,next) => {
 
 
 }
-
+//supprimer admin
 const destroy = async (req,res,next) => {
 	let adminId = req.body.adminId
     Admin.findByIdAndRemove(adminId)

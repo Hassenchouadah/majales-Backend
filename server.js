@@ -6,8 +6,6 @@ connectDB();
 
 app.use(express.json({ extended: false }));
 
-app.use('/uploads', express.static(__dirname + '/public'));
-
 app.use('/api/auth',require('./Controllers/loginController'))
 app.use('/api/users',require('./Controllers/usersController'))
 

@@ -38,10 +38,10 @@ const login =  (req,res,next)  =>{
                 }
 
                 if (result){
-                    const hash = { name: admin._id }
-                    const accessToken = generateAccessToken(hash)
+                    const hash = { name: admin._id }//jwt
+                    const accessToken = generateAccessToken(hash)//jwt
 
-                    res.status(200).send(JSON.stringify(
+                    res.status(200).send(JSON.stringify( //200=>succes
                         {
                             _id : admin._id,
                             username : admin.username,
@@ -98,7 +98,7 @@ const login =  (req,res,next)  =>{
 
     })
 }
-
+//acces tocken
 function generateAccessToken(hash) {
     return jwt.sign(hash, process.env.ACCESS_TOKEN_SECRET)
 }
