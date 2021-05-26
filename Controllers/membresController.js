@@ -72,7 +72,7 @@ const addMembre = (req,res,next) => {
 	})
 }
 
-//getById membre
+//getById membre(modifer membre)
 const getById = (req,res,next)  => {
 	let membreId = req.body.membreId
 	Membres.findById(membreId)

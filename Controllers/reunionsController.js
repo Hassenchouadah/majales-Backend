@@ -6,7 +6,7 @@ const Municipalites = require('../Models/Municipalite')
 
 
 const route = express.Router();
-
+//node mailer
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -18,7 +18,7 @@ var transporter = nodemailer.createTransport({
 //show Reunions list
 const index = (req,res,next)  => {
 	Reunions.find()
-    .populate('municipalite',{"gouvernorat": 0})
+    .populate('municipalite',{"gouvernorat": 0}) //eviter l'affichage cerculaire
     .populate([
         {
           path: 'participations.membre',

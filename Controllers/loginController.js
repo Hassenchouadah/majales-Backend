@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const Admin = require('../Models/Admin');
 
 
-
+//show liste admin
 const index = (req,res,next)  => {
 	Admin.find()
 	.then(response  => {
@@ -21,7 +21,7 @@ const index = (req,res,next)  => {
 		})
 	})
 }
-
+//login
 const login =  (req,res,next)  =>{
     var email=req.body.email
     var pwd=req.body.pwd
@@ -36,10 +36,10 @@ const login =  (req,res,next)  =>{
                 }
 
                 if (result){
-                    const hash = { name: admin._id }
-                    const accessToken = generateAccessToken(hash)
+                    const hash = { name: admin._id }//jwt
+                    const accessToken = generateAccessToken(hash)//jwt
 
-                    res.status(200).send(JSON.stringify(
+                    res.status(200).send(JSON.stringify( //200=>succes
                         {
                             _id : admin._id,
                             username : admin.username,
@@ -56,7 +56,7 @@ const login =  (req,res,next)  =>{
                         })
                     )
                 }else {
-                    res.status(201).send(JSON.stringify(
+                    res.status(201).send(JSON.stringify( // err password
                         {
                             _id : "",
                             username : "",
@@ -76,7 +76,7 @@ const login =  (req,res,next)  =>{
                 
             })
         } else {
-            res.status(202).send(JSON.stringify(
+            res.status(202).send(JSON.stringify( //  not found
                 {
                     _id : "",
                     username : "",
@@ -96,7 +96,7 @@ const login =  (req,res,next)  =>{
 
     })
 }
-
+//acces tocken
 function generateAccessToken(hash) {
     return jwt.sign(hash, process.env.ACCESS_TOKEN_SECRET)
 }
